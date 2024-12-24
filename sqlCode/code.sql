@@ -48,3 +48,24 @@ INSERT INTO factures (id_rdv, montant, date_facture) VALUES
 INSERT INTO factures (id_rdv, montant, date_facture) VALUES 
 (1, 250.00, '2024-12-23 10:05:00'),
 (3, 300.00, '2024-12-25 09:07:00');
+
+SELECT 
+    r.id_rdv AS ID_RendezVous,
+    p.nom AS Patient_Nom,
+    p.prenom AS Patient_Prenom,
+    m.nom AS Medecin_Nom,
+    m.prenom AS Medecin_Prenom,
+    r.date_rdv AS Date_RendezVous,
+    r.status AS Statut_RendezVous,
+    f.montant AS Montant_Facture,
+    f.date_facture AS Date_Facture
+FROM 
+    rendezvous r
+JOIN 
+    utilisateurs p ON r.id_patient = p.id_utilisateur AND p.type_utilisateur = 'patient'
+JOIN 
+    utilisateurs m ON r.id_medecin = m.id_utilisateur AND m.type_utilisateur = 'medecin'
+LEFT JOIN 
+    factures f ON r.id_rdv = f.id_rdv
+ORDER BY 
+    r.date_rdv
